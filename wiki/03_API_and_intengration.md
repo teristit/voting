@@ -4,7 +4,29 @@
 ## 1. Авторизация
 
 ### 1.1 Telegram WebApp
+```bash
+POST /api/v1/auth/telegram
+Content-Type: application/json
 
+{
+  "init_data": "tgWebAppData=query_id=AAHdF6IQAAAAAN0XohDhr8c&user=..."
+}
+```
+
+**Ответ:**
+```json
+{
+  "status": "success",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "user_id": 123456789,
+    "name": "John Doe",
+    "role": "user",
+    "active": true
+  },
+  "expires_in": 3600
+}
+```
 * Используется `initData` для верификации пользователя.
 * Backend проверяет подпись `hash` и идентифицирует пользователя.
 * После успешной проверки создается сессия (JWT или cookie).
@@ -314,7 +336,7 @@
 
 ---
 
-### 4.4.1 Просмотр всех голосов сессии
+#### 4.4.1 Просмотр всех голосов сессии
 
 * **URL:** `/api/v1/sessions/{session_id}/votes`
 * **Метод:** `GET`
@@ -348,7 +370,7 @@
 
 ---
 
-### 4.4.2 Изменение оценки
+#### 4.4.2 Изменение оценки
 
 * **URL:** `/api/v1/votes/{vote_id}`
 * **Метод:** `PATCH`
@@ -377,7 +399,7 @@
 
 ---
 
-### 4.4.3 Удаление голоса
+#### 4.4.3 Удаление голоса
 
 * **URL:** `/api/v1/votes/{vote_id}`
 * **Метод:** `DELETE`
@@ -396,7 +418,7 @@
 
 ---
 
-### 4.4.4 Логирование изменений
+#### 4.4.4 Логирование изменений
 
 Все изменения, внесённые администратором, сохраняются в журнал (`audit_log`) и могут быть просмотрены через отдельный эндпоинт `/api/v1/logs`.
 
@@ -414,7 +436,7 @@
 
 ---
 
-### 4.4.5 Поведение после изменения
+#### 4.4.5 Поведение после изменения
 
 1. После каждого изменения или удаления голосов система автоматически:
 
@@ -422,7 +444,27 @@
    * пересчитывает результаты (`/results/session/{session_id}`);
    * помечает изменённые голоса флагом `"modified_by_admin": true`.
 2. При необходимости админ может вызвать перерасчёт вручную через эндпоинт `/api/v1/results/recalculate/{session_id}` (см. раздел 11.3).
+### 4.5 Управление участниками сессии
+```bash
+# Добавление участников
+POST /api/v1/admin/sessions/{session_id}/participants
+{
+  "user_ids": [101, 102, 103],
+  "can_vote": true,
+  "can_receive_votes": true,
+  "status": "active"
+}
 
+# Просмотр участников
+GET /api/v1/admin/sessions/{session_id}/participants
+
+# Изменение прав участника
+PATCH /api/v1/admin/sessions/{session_id}/participants/{user_id}
+{
+  "can_vote": false,
+  "status": "vacation"
+}
+```
 ---
 
 ## 5. Управление участниками (админ)
@@ -463,6 +505,21 @@
 }
 ```
 
+### 5.3 Получение участников с фильтрацией
+```bash
+GET /api/v1/admin/users?active=true&role=user
+```
+
+### 5.4 Массовые операции с пользователями
+```bash
+POST /api/v1/admin/users/bulk
+{
+  "users": [
+    {"user_id": 101, "name": "Иван Иванов", "role": "user"},
+    {"user_id": 102, "name": "Петр Петров", "role": "manager"}
+  ]
+}
+```
 ---
 
 ## 6. Экспорт данных (админ)
