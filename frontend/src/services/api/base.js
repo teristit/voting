@@ -38,7 +38,6 @@ api.interceptors.response.use(
         window.location.href = '/login'
       }
     }
-    
     return Promise.reject(error)
   }
 )
@@ -69,6 +68,31 @@ export const apiMethods = {
   put: (url, data = {}, config = {}) => api.put(url, data, config),
   patch: (url, data = {}, config = {}) => api.patch(url, data, config),
   delete: (url, config = {}) => api.delete(url, config),
+}
+
+// Для скачивания файлов
+export const downloadFile = async (url, filename, params = {}) => {
+  try {
+    const response = await api.get(url, {
+      params,
+      responseType: 'blob'
+    })
+    
+    // Создаем ссылку для скачивания
+    const blob = new Blob([response.data])
+    const downloadUrl = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(downloadUrl)
+    
+    return { success: true }
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }
 
 export default api
