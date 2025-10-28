@@ -19,9 +19,9 @@
     "vue": "^3.5.22",
     "vue-router": "^4.6.3",
     "axios": "^1.7.9",
-    "@twa-dev/sdk": "^1.0.2",
+    "@twa-dev/sdk": "^8.0.2",
     "chart.js": "^4.4.7",
-    "vue-chartjs": "^5.4.0"
+    "vue-chartjs": "^5.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
@@ -35,6 +35,9 @@
     "vite-plugin-vue-devtools": "^8.0.3",
     "tailwindcss": "^3.4.17",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.8"
+    "postcss": "^8.5.6"
   }
 }
+
+
+

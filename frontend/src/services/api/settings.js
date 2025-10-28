@@ -24,6 +24,17 @@ export const settingsAPI = {
       throw handleApiError(error)
     }
   },
+  /**
+ * Получение участников сессии
+ */
+  getParticipants: async (sessionId) => {
+    try {
+      const response = await apiMethods.get(`/api/v1/admin/sessions/${sessionId}/participants`)
+      return response
+    } catch (error) {
+      throw handleApiError(error)
+    }
+  },
 
   /**
    * Настройка автоматического создания сессий (админ)

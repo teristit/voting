@@ -94,5 +94,13 @@ export const sessionsAPI = {
     } catch (error) {
       throw handleApiError(error)
     }
-  }
+  },
+  getParticipants: async (sessionId) => {
+    try {
+      const response = await apiMethods.get(`/api/v1/admin/sessions/${sessionId}/participants`)
+      return response
+    } catch (error) {
+      throw handleApiError(error)
+    }
+  },
 }

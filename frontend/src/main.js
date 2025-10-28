@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { init } from '@twa-dev/sdk'
 
 import App from './App.vue'
 import './style.css'
 
-// Инициализация Telegram WebApp
-init()
+// Временно закомментируем Telegram SDK для тестирования
+// import { init } from '@twa-dev/sdk'
+// init()
 
 const app = createApp(App)
 
