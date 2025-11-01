@@ -109,7 +109,7 @@
 
 * **Frontend:** Vue 3, Telegram WebApp SDK, адаптивный UI.
 * **Backend:** Python (Flask или FastAPI) + SQLAlchemy.
-* **БД:** PostgreSQL.
+* **БД:** SQLite.
 * **Инфраструктура:** Docker, Nginx, CI (GitHub Actions/GitLab CI).
 * **Дополнительно:** Redis (для кэширования/очередей) — опционально.
 
